@@ -22,4 +22,4 @@ Desktop application developed using python-eel, which lets you filter movies fro
 - Refer [Eel](https://github.com/ChrisKnott/Eel) to understand the working and for packaging info.
 
 ## Screenshot
-![MovieSieve](https://github.com/mochatek/MovieSieve/blob/master/screenshot.png)
+![MovieSieve](https://github.com/mochatek/MovieSieve/blob/master/Screenshot.PNG)
