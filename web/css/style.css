@@ -1,0 +1,101 @@
+body {
+  font-family: "Sansita", sans-serif;
+  cursor: pointer;
+}
+
+.pb-navbar {
+  margin-bottom: 0;
+}
+
+#info {
+  background-color: white;
+  border-radius: 3px;
+}
+
+.heading {
+  padding: 3vh;
+  font-weight: bold;
+}
+
+.heading h3 {
+  font-size: x-large;
+  padding-bottom: 3vh;
+  color: white;
+  font-weight: 800;
+}
+
+#year {
+  font-size: large;
+}
+
+#imdb {
+  font-size: xx-large;
+  color: rgb(245, 197, 24);
+  float: right;
+}
+
+.content {
+  padding: 2vh;
+  display: flex;
+  gap: 1vh;
+}
+
+.content img {
+  width: 18%;
+}
+
+.details {
+  margin-left: 3vh;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
+}
+
+.details div {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.details div p:nth-child(2n + 1) {
+  font-weight: bold;
+}
+
+.details div p:nth-child(2n) {
+  color: blue;
+}
+
+.summary {
+  padding: 3vh;
+  text-align: justify;
+}
+
+.scroll {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+div.scroll > a {
+  color: green;
+}
+
+.bg-blue {
+  background-color: rgb(52, 73, 94);
+}
+
+.active {
+  background-color: rgba(158, 162, 165, 0.3);
+}
+
+.folder {
+  color: rgb(252, 175, 59);
+}
+
+.list-group-item-action:focus {
+  color: red;
+}
+
+#movies {
+  font-size: 0.9rem;
+}
