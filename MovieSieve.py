@@ -48,7 +48,7 @@ def retrieve_data(movie):
 
         # Extract only the eeded movie attributes
         needed_keys = ['Rated', 'Genre', 'Released', 'Runtime', 'Director', 'Writer',
-                    'Actors', 'Plot', 'Language', 'Country', 'Awards', 'imdbRating']
+                       'Actors', 'Plot', 'Language', 'Country', 'Awards', 'imdbRating']
         data = {key: value for key, value in data.items() if key in needed_keys}
 
         return data
@@ -72,7 +72,8 @@ def browse_movie_folder():
     root.withdraw()
 
     home = path.expanduser('~')
-    folder_path = filedialog.askdirectory(initialdir=path.join(home, 'Downloads'), title="Select Movie Folder")
+    folder_path = filedialog.askdirectory(initialdir=path.join(
+        home, 'Downloads'), title="Select Movie Folder")
     return folder_path
 
 
@@ -202,3 +203,5 @@ def get_movie_data(movie):
 
 
 eel.start('index.html')
+
+# python -m eel MovieSieve.py web --onefile --noconsole --icon=favicon.py
