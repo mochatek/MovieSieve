@@ -99,3 +99,8 @@ div.scroll > a {
 #movies {
   font-size: 0.9rem;
 }
+
+#logs_list {
+  max-height: 115px;
+  overflow-y: scroll;
+}

@@ -108,7 +108,7 @@ def add_movie(movie, data, poster_url):
     except:
         pass
 
-    return True
+    return {'name': movie, 'genre': genres}
 
 
 @eel.expose
@@ -124,9 +124,8 @@ def get_movies(folder_path):
     errors = []
 
     # Movies in Root
-    movies_in_root = listdir(folder_path)
-    if __file__ in movies_in_root:
-        movies_in_root.remove(__file__)
+    movies_in_root = [movie for movie in listdir(
+        folder_path) if path.isdir(path.join(folder_path, movie))]
 
     conn = sqlite3.connect(path.join(ROOT, 'web', 'movies.db'))
     cursor = conn.cursor()
@@ -204,4 +203,4 @@ def get_movie_data(movie):
 
 eel.start('index.html')
 
-# python -m eel MovieSieve.py web --onefile --noconsole --icon=favicon.py
+# python -m eel MovieSieve.py web --onefile --noconsole --icon=favicon.ico

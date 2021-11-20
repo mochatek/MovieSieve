@@ -1,4 +1,5 @@
 let movie_cache = {};
+let movie_selected_for_fix = null;
 
 eel.expose(update_progress);
 function update_progress(completion_percentage) {
@@ -7,13 +8,37 @@ function update_progress(completion_percentage) {
     .attr("aria-valuenow", completion_percentage);
 }
 
-function refresh(success) {
+function refresh_movie_and_logs(success) {
+  // If movie details was added
   if (success) {
-    window.location.reload();
+    const { name, genre } = success;
+
+    // Remove entry from error logs
+    movie_selected_for_fix && movie_selected_for_fix.remove();
+
+    // Add to cache
+    movie_cache[name] = { genre, data: null };
+
+    // Add to Movies list
+    $("#movies")
+      .append(`<button type="button" data-genre="${genre}" class="list-group-item list-group-item-action" onclick="get_movie_data('${name}')">
+      <div class="row">
+          <div class="col-sm-1 folder"><i class="fa fa-lg fa-folder"></i></div>
+          <div class="col-sm-10">${name}</div>
+      </div>
+    </button>`);
+
+    // Hide movie details form
+    $("#movie_form")[0].style.display = "none";
+  } else {
+    alert("Failed to update movie!");
   }
 }
 
-function choose_movie(movie) {
+function choose_movie(movie, span) {
+  // Set the P as selected movie for fix
+  movie_selected_for_fix = span.parentElement;
+
   $("#movie_form")[0].reset();
   $("input[name=movie]").val(movie);
   $("#movie_form")[0].style.display = "";
@@ -71,7 +96,7 @@ function add_movie(form, event) {
       imdbRating,
       Genre,
     };
-    eel.add_movie(movie, data, poster)(refresh);
+    eel.add_movie(movie, data, poster)(refresh_movie_and_logs);
   }
 }
 
@@ -126,7 +151,7 @@ function setup_logs(errors) {
 
     let movies = "";
     errors.forEach((movie) => {
-      movies += `<p class="alert alert-danger p-1 mt-1 mb-0">❌ ${movie} <span style="float:right" class="badge badge-sm badge-success" onclick="choose_movie('${movie}')">Fix</span></p>`;
+      movies += `<p class="alert alert-danger p-1 mt-1 mb-0">❌ ${movie} <span style="float:right" class="badge badge-sm badge-success" onclick="choose_movie('${movie}', this)">Fix</span></p>`;
     });
 
     $("#logs_list").html(movies);
