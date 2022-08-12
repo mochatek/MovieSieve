@@ -1,3 +1,4 @@
 env/
 posters/*
 !posters/default.jpg
+__pycache__

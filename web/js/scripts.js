@@ -287,10 +287,10 @@ function get_movie_data(movie) {
   }
 }
 
-async function browse_movie_folder(event) {
+async function browse_movie_directory(event) {
   event.preventDefault();
 
-  const movie_path = await eel.browse_movie_folder()();
+  const movie_path = await eel.browse_movie_directory()();
 
   // If any movie folder was selected
   if (movie_path) {
