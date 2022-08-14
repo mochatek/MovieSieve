@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieSieve</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="web/font-awesome/css/font-awesome.min.css" />
+</head>
+<body>
+    <header>
+        <section id="toolbar">
+            <h1 id="logo">MovieSieve</h1>
+            <article class="tool-group">
+                <ul class="tool-group-tools">
+                    <li role="button" title="Browse Movies"><i class="fa fa-folder-open"></i></li>
+                    <li role="button" title="Export Movies"><i class="fa fa-arrow-circle-down"></i></li>
+                </ul>
+                <footer class="tool-group-name">Manage</footer>
+            </article>
+            <article class="tool-group">
+                <nav class="tool-group-tools">
+                    <a target="_blank" title="GitHub" href="https://github.com/mochatek"><i class="fa fa-github-square"></i></a>
+                    <a target="_blank" title="LinkedIn" href="https://in.linkedin.com/in/akash-s-panickar"><i class="fa fa-linkedin-square"></i></a>
+
+                </nav>
+                <footer class="tool-group-name">Social</footer>
+            </article>
+            <article class="tool-group">
+                <ul class="tool-group-tools">
+                    <li role="button" title="Info"><i class="fa fa-info-circle" title="Info"></i></li>
+                </ul>
+                <footer class="tool-group-name">Help</footer>
+            </article>
+        </section>
+        <section id="controlsbar">
+            <div class="control-wrapper">
+                <i class="fa fa-filter"></i>
+                <select class="control">
+                    <option value="All">All Movies</option>
+                </select>
+            </div>
+            <div class="control-wrapper">
+                <i class="fa fa-search"></i>
+                <input type="search" class="control" placeholder="Search">
+            </div>
+        </section>
+    </header>
+    <main>
+        <section id="sidebar">
+            <ul id="folders">
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li class="selected"><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li class="error"><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+                <li><i class="fa fa-folder"></i>Apocalypto 2002</li>
+            </ul>
+        </section>
+        <aside id="contentarea">
+            <!-- <header id="movie-header">
+                <h3 id="details-1">
+                    <span id="title">Title</span>
+                    <span id="year">( Year )</span>
+                    <span id="imdb"><i class="fa fa-imdb"></i>imdbRating</span>
+                </h3>
+                <ul id="details-2">
+                    <li>Rated</li>
+                    <li>Genre</li>
+                    <li>Runtime</li>
+                    <li>Released</li>
+                    <li>Country</li>
+                    <li>Language</li>
+                </ul>
+            </header>
+            <div id="movie-content">
+                <div id="details-3">
+                    <img src="web/posters/Psycho (1960).jpg" alt="Poster">
+                    <table id="technical-details">
+                        <tbody>
+                            <tr>
+                                <th>Director</th>
+                                <td>Director</td>
+                            </tr>
+                            <tr>
+                                <th>Writer</th>
+                                <td>Writer</td>
+                            </tr>
+                            <tr>
+                                <th>Actors</th>
+                                <td>Actors</td>
+                            </tr>
+                            <tr>
+                                <th>Awards</th>
+                                <td>Awards</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="summary-container">
+                    <p id="movie-summary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae fugiat nisi natus aut tenetur animi, id praesentium aliquid culpa explicabo doloribus! Odit cupiditate deleniti atque a voluptate libero ab sequi!
+                    </p>
+                </div>
+            </div> -->
+            <!-- <header class="info">
+                <p><i class="fa fa-times-circle"></i>Sorry, Unable to gather details for the listed movie(s) !</p>
+                <p><i class="fa fa-question-circle"></i>Please try again after verifying the folder name format is <mark class="alert">Movie (Year)</mark>.</p>
+                <p><i class="fa fa-info-circle"></i>Still not resolved? Select the movie and add the details manually.</p>
+            </header> -->
+            <!-- <header class="info">
+                <p class="alert"><i class="fa fa-pencil-square"></i>Please provide the following details :</p>
+            </header>
+            <form id="add-movie">
+                <div class="row">
+                    <input type="text" placeholder="Name">
+                    <input type="text" placeholder="Certificate">
+                    <input type="text" placeholder="Genre">
+                    <input type="text" placeholder="Runtime">
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="Release">
+                    <input type="text" placeholder="Country">
+                    <input type="text" placeholder="Language">
+                    <input type="text" placeholder="IMDb Rating">
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="Director">
+                    <input type="text" placeholder="Writer">
+                    <input type="text" placeholder="Actors">
+                    <input type="text" placeholder="Awards">
+                </div>
+                <div class="row extend">
+                    <input type="text" placeholder="Poster URL">
+                </div>
+                <div class="row extend">
+                    <textarea placeholder="Plot Summary"></textarea>
+                </div>
+                <div class="row">
+                    <button type="submit">Save</button>
+                </div>
+            </form> -->
+            <header class="info">
+                <h4><i class="fa fa-list"></i>Requirements</h4>
+                <li>Movie name should be in the format <mark class="alert">Name (Year)</mark>.</li>
+                <li>Initially, internet connection is required for retrieving movie details.</li>
+
+                <h4><i class="fa fa-list"></i>Usage</h4>
+                <li>Choose movie folder by clicking the <mark class="alert"><i class="fa fa-folder-open"></i></mark> button in the toolbar.</li>
+                <li>Wait till details for all the movies in the selected folder is retreived.</li>
+                <li>Once the details are fetched, movies will be listed on the left sidebar.</li>
+                <li>Click any movie to see its details.</li>
+                <li>Use the <mark class="alert"><i class="fa fa-filter"></i></mark> to filter movies by genre.</li>
+                <li>To search movies by name/year, use the <mark class="alert"><i class="fa fa-search"></i></mark>.</li>
+                <li>Movies, for which details were unavailable will be in <mark class="alert">red color</mark>.</li>
+                <li>Click the movie to add its details manually.</li>
+                <li>Use the <mark class="alert"><i class="fa fa-arrow-circle-down"></i></mark> button in toolbar to export saved details.</li>
+            </header>
+        </aside>
+    </main>
+    <footer>
+        <p id="statusbar">
+            <span id="status"><i class="fa fa-spinner loading"></i> 21 records</span>
+            <span id="copyright">&copy; MochaTek 2021</span>
+        </p>
+    </footer>
+</body>
+</html>
