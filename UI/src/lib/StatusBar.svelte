@@ -1,11 +1,9 @@
 <script>
-  export let total;
-  export let filtered;
-  export let na;
+  import { movies, filteredMovies, processing } from "../store";
 
-  import { processing } from "../store";
-
-  $: status = $processing;
+  $: total = $movies.length;
+  $: filtered = $filteredMovies.length;
+  $: na = $filteredMovies.filter((movie) => movie.genre === "N/A").length;
 
   const formatPlural = (count, itemName) => {
     let result = `${count} ${itemName}`;
@@ -18,8 +16,8 @@
 
 <p id="statusbar">
   <span id="status">
-    {#if status}
-      <i class="fa fa-spinner loading" /> {status}
+    {#if $processing}
+      <i class="fa fa-spinner loading" /> {$processing}
     {:else}
       {`${formatPlural(total, "Record")} ,  ${filtered} Filtered , ${na} N/A`}
     {/if}

@@ -51,7 +51,7 @@ export const getMovies = () => {
   return new Promise((resolve) => {
     setTimeout(
       () => resolve(movies.map((_) => ({ name: _.name, genre: _.Genre }))),
-      3000
+      1000
     );
   });
 };

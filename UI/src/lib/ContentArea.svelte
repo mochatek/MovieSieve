@@ -1,11 +1,11 @@
 <script>
+  import { contentKey } from "../store";
   import MovieDetails from "./components/MovieDetails.svelte";
   import Information from "./components/Information.svelte";
   import MovieError from "./components/MovieError.svelte";
   import AddMovie from "./components/AddMovie.svelte";
-  import { contentKey } from "../store";
 
-  const componentMap = {
+  const router = {
     info: Information,
     error: MovieError,
     details: MovieDetails,
@@ -14,5 +14,5 @@
 </script>
 
 <aside id="contentarea">
-  <svelte:component this={componentMap[$contentKey]} />
+  <svelte:component this={router[$contentKey]} />
 </aside>

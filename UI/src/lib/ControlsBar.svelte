@@ -1,15 +1,14 @@
 <script>
-  export let filterOptions;
-  export let filter;
-  export let search;
-  export let disabled;
+  import { filterOptions, selectedFilter, search, movies } from "../store";
+
+  $: disabled = !$movies.length;
 </script>
 
 <section id="controlsbar">
   <div class="control-wrapper">
     <i class="fa fa-filter" />
-    <select class="control" bind:value={filter} {disabled}>
-      {#each filterOptions as option}
+    <select class="control" bind:value={$selectedFilter} {disabled}>
+      {#each $filterOptions as option}
         <option value={option}>{option}</option>
       {/each}
     </select>
@@ -20,7 +19,7 @@
       type="search"
       class="control"
       placeholder="Search"
-      bind:value={search}
+      bind:value={$search}
       {disabled}
     />
   </div>

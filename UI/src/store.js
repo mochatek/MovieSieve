@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { getMovies, addMovie, getMovieData } from "./services/api";
 
 const createMovie = () => {
@@ -31,10 +31,67 @@ const createMovie = () => {
   };
 };
 
-export const processing = writable("");
+const createContentKey = () => {
+  const _writableKey = writable("");
+  const _readableKey = derived(
+    [selectedMovie, selectedFilter, filteredMovies, _writableKey],
+    ([$selectedMovie, $selectedFilter, $filteredMovies, $_writableKey]) => {
+      if ($_writableKey) {
+        return "info";
+      }
+
+      if ($selectedMovie) {
+        const selected = $filteredMovies.find(
+          (movie) => movie.name === $selectedMovie
+        );
+        if (selected) {
+          return selected.genre === "N/A" ? "add" : "details";
+        } else {
+          return $selectedFilter === "N/A" ? "error" : "";
+        }
+      }
+      return $selectedFilter === "N/A" ? "error" : "";
+    }
+  );
+
+  return {
+    ..._readableKey,
+    set: (key) => ["info", ""].includes(key) && _writableKey.set(key),
+  };
+};
+
 export const movies = createMovie();
 export const selectedMovie = writable("");
-export const contentKey = writable("");
+export const filterOptions = derived([movies], ([$movies]) => [
+  "All",
+  "N/A",
+  ...$movies
+    .reduce((uniqueGenres, movie) => {
+      const currentGenres = movie.genre.split(",").map((genre) => genre.trim());
+      currentGenres.forEach(
+        (genre) =>
+          genre !== "N/A" &&
+          !uniqueGenres.includes(genre) &&
+          uniqueGenres.push(genre)
+      );
+      return uniqueGenres;
+    }, [])
+    .sort(),
+]);
+export const selectedFilter = writable("All");
+export const search = writable("");
+export const filteredMovies = derived(
+  [movies, selectedFilter, search],
+  ([$movies, $selectedFilter, $search]) =>
+    ($selectedFilter == "All"
+      ? $movies
+      : $movies.filter((movie) => movie.genre.includes($selectedFilter))
+    ).filter((movie) =>
+      movie.name.toLowerCase().includes($search.toLowerCase())
+    )
+);
+export const contentKey = createContentKey();
+export const processing = writable("");
 
 // clean genres while adding movie details in backend
 // loading in contentarea

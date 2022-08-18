@@ -1,9 +1,10 @@
 <script>
-  import { movies, contentKey, processing } from "../store.js";
+  import { movies, processing, contentKey } from "../store.js";
 
   $: disabled = !!$processing;
+
   const getMovies = () => movies.getMovies();
-  const showInfo = () => contentKey.set("info");
+  const toggleInfo = () => contentKey.set($contentKey === "info" ? "" : "info");
 </script>
 
 <section id="toolbar">
@@ -40,7 +41,7 @@
   </article>
   <article class="tool-group">
     <ul class="tool-group-tools">
-      <li role="button" title="Info" class:disabled on:click={showInfo}>
+      <li role="button" title="Info" on:click={toggleInfo}>
         <i class="fa fa-info-circle" title="Info" />
       </li>
     </ul>

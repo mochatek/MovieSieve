@@ -1,12 +1,10 @@
 <script>
-  export let movies;
-
-  import { selectedMovie } from "../store";
+  import { filteredMovies, selectedMovie } from "../store";
 </script>
 
 <section id="sidebar">
   <ul id="folders">
-    {#each movies as movie (movie.name)}
+    {#each $filteredMovies as movie (movie.name)}
       <li
         class:error={movie.genre === "N/A"}
         class:selected={movie.name == $selectedMovie}
