@@ -6,6 +6,8 @@ from json import dumps, loads
 def construct_values(folder_name, data):
     return (folder_name, data.get('Genre', ''), dumps(data))
 
+def marshal_response(movies):
+    return [{"name": folder_name, "genre": genre} for folder_name, genre in movies]
 
 def init_db():
     conn = connect(DB_PATH)
@@ -51,4 +53,4 @@ def get_many(folder_names):
         "SELECT folder_name, genres FROM movies WHERE folder_name IN ({seq}) ORDER BY folder_name".format(seq=','.join(['?']*len(folder_names))), tuple(folder_names)).fetchall()
     cursor.close()
     conn.close()
-    return movies
+    return marshal_response(movies)

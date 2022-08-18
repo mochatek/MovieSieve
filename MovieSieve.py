@@ -67,11 +67,9 @@ def get_movies(movie_directory: str) -> dict:
         :return: dict {movies, errors}
     """
 
-    result_movies = []
-    failed_movies = []
-
     all_movies = [folder_name for folder_name in listdir(movie_directory) if isdir(join(movie_directory, folder_name))]
-    available_movies = (record[0] for record in get_many(all_movies))
+    result_movies = get_many(all_movies)
+    available_movies = (movie["name"] for movie in result_movies)
     missing_movies = set(all_movies).difference(set(available_movies))
 
     if missing_movies:
@@ -84,17 +82,14 @@ def get_movies(movie_directory: str) -> dict:
             folder_name = movie.get('name')
             data = movie.get('data')
             if not data:
-                failed_movies.append(folder_name)
+                result_movies.append({"name": folder_name, "genre": 'N/A'})
             else:
                 fetched_movies.append((folder_name, data))
+                result_movies.append({"name": folder_name, "genre": data.get('Genre')})
 
         insert_many(fetched_movies)
 
-        result_movies = get_many(all_movies)
-
-    return {
-        'movies': result_movies, 'errors': failed_movies
-    }
+    return result_movies
 
 
 @eel.expose
@@ -102,10 +97,8 @@ def get_movie_data(folder_name: str) -> list:
     """
         Get details of the requested movie
         :param str folder_name: Folder name of the movie => `Name (Year)`
-        :return: [Movie, Movie details(JSON), Cache-control]
     """
-    movie_data = get_data(folder_name)
-    return [folder_name, movie_data, False]
+    return get_data(folder_name)
 
 
 eel.start('index.html')

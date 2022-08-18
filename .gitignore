@@ -2,3 +2,7 @@ env/
 posters/*
 !posters/default.jpg
 __pycache__
+
+*.log
+node_modules
+dist
