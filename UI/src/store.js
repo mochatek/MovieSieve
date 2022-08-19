@@ -1,36 +1,70 @@
 import { derived, writable } from "svelte/store";
-import { getMovies, addMovie, getMovieData } from "./services/api";
 
 const createMovie = () => {
   const { subscribe, set, update } = writable([]);
   const dataCache = {};
+  let movie_directory;
+
+  const getMovies = async (newFolder = true) => {
+    newFolder && (movie_directory = "");
+
+    if (!movie_directory) {
+      processing.set({ message: "Browsing Movie Directory" });
+      movie_directory = await window.eel.browse_movie_directory()();
+    }
+    if (movie_directory) {
+      processing.set({ message: "Retrieving Movies", progress: 0 });
+      const movies = await window.eel.get_movies(movie_directory)();
+      processing.set(null);
+      set(movies);
+    } else {
+      processing.set(null);
+    }
+  };
+
+  const addMovie = async (movieName, data, poster_url) => {
+    processing.set({ message: "Adding Movie" });
+    const { genre } = await window.eel.add_movie(movieName, data, poster_url)();
+    update((movies) =>
+      movies.map((movie) =>
+        movie.name === movieName ? { ...movie, genre } : movie
+      )
+    );
+    processing.set(null);
+  };
+
+  const getMovieData = async (movieName) => {
+    if (!(movieName in dataCache)) {
+      const data = await window.eel.get_movie_data(movieName)();
+      dataCache[movieName] = data;
+    }
+    return dataCache[movieName];
+  };
+
+  const exportData = async () => {
+    processing.set({ message: "Exporting Data" });
+    const exported = await window.eel.export_data()();
+    processing.set({ message: `Export ${exported ? "Successful" : "Failed"}` });
+    const tId = setTimeout(() => {
+      processing.set(null);
+      clearTimeout(tId);
+    }, 1000);
+  };
+
+  const importData = async () => {
+    processing.set({ message: "Importing Data" });
+    const imported = await window.eel.import_data()();
+    processing.set(null);
+    imported && (await getMovies(false));
+  };
 
   return {
     subscribe,
-    getMovies: async () => {
-      processing.set({ message: "Retrieving Movies...", progress: 0 });
-      const movies = await getMovies();
-      processing.set({ message: "Retrieving Movies...", progress: 100 });
-      setTimeout(() => processing.set(null), 1000);
-      set(movies);
-    },
-    addMovie: async (movieName, data, poster_url) => {
-      processing.set({ message: "Adding Movie..." });
-      const { genre } = await addMovie(movieName, data, poster_url);
-      update((movies) =>
-        movies.map((movie) =>
-          movie.name === movieName ? { ...movie, genre } : movie
-        )
-      );
-      processing.set(null);
-    },
-    getMovieData: async (movieName) => {
-      if (!(movieName in dataCache)) {
-        const data = await getMovieData(movieName);
-        dataCache[movieName] = data;
-      }
-      return dataCache[movieName];
-    },
+    getMovies,
+    addMovie,
+    getMovieData,
+    exportData,
+    importData,
   };
 };
 
@@ -104,4 +138,6 @@ export const filteredMovies = derived(
 export const contentKey = createContentKey();
 export const processing = writable(null);
 
-// clean genres while adding movie details in backend
+// Send data in addMovie
+// Extend posters and data to whatever existing
+// Create toast

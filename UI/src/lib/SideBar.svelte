@@ -3,7 +3,7 @@
 </script>
 
 <section id="sidebar">
-  {#if !!$processing}
+  {#if !!$processing && $processing?.progress > -1}
     <div class="progress"><div style="width: {$processing.progress}%;" /></div>
   {:else}
     <ul id="folders">

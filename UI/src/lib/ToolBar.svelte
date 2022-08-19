@@ -4,6 +4,8 @@
   $: disabled = !!$processing;
 
   const getMovies = () => movies.getMovies();
+  const exportData = () => movies.exportData();
+  const importData = () => movies.importData();
   const toggleInfo = () => contentKey.set($contentKey === "info" ? "" : "info");
 </script>
 
@@ -19,8 +21,21 @@
       >
         <i class="fa fa-folder-open" />
       </li>
-      <li role="button" title="Export Movies" class:disabled>
+      <li
+        role="button"
+        title="Import Data"
+        class:disabled
+        on:click={importData}
+      >
         <i class="fa fa-arrow-circle-down" />
+      </li>
+      <li
+        role="button"
+        title="Export Data"
+        class:disabled
+        on:click={exportData}
+      >
+        <i class="fa fa-arrow-circle-up" />
       </li>
     </ul>
     <footer class="tool-group-name">Manage</footer>

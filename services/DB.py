@@ -3,8 +3,11 @@ from constants import DB_PATH
 from json import dumps, loads
 
 
+def clean_genre(genres):
+    return [genre.strip().capitalize() for genre in genres.split(',') if genre.strip()]
+
 def construct_values(folder_name, data):
-    return (folder_name, data.get('Genre', ''), dumps(data))
+    return (folder_name, clean_genre(data.get('Genre', '')) or 'N/A', dumps(data))
 
 def marshal_response(movies):
     return [{"name": folder_name, "genre": genre} for folder_name, genre in movies]

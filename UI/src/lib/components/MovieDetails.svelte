@@ -15,7 +15,7 @@
     })();
   }
 
-  $: [Title, Year] = extractNameYear(data?.name || "");
+  $: [Title, Year] = extractNameYear($selectedMovie);
   $: Rated = data?.Rated;
   $: imdbRating = data?.imdbRating;
   $: Genre = data?.Genre;
@@ -47,10 +47,7 @@
 </header>
 <div id="movie-content">
   <div id="details-3">
-    <img
-      src="https://m.media-amazon.com/images/M/MV5BZTM2NmZlOTEtYTI5NS00N2JjLWJkNzItMmZkNDBlYmQzNDA2XkEyXkFqcGdeQXVyMTAxODYyODI@._V1_SX300.jpg"
-      alt="Poster"
-    />
+    <img src={`/Posters/${$selectedMovie}.jpg`} alt="Poster" />
     <table id="technical-details">
       <tbody>
         <tr>
