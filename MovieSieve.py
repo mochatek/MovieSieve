@@ -1,10 +1,11 @@
 import eel
 from os import listdir
-from os.path import join, isdir
+from os.path import join, isdir, basename
+from zipfile import ZipFile, ZIP_DEFLATED
 from tkinter import Tk, filedialog
 from services.API import fetch_movies, save_poster, run_async
 from services.DB import init_db, insert_one, insert_many, get_data, get_many
-from constants import APP_ICON, DOWNLOADS_PATH
+from constants import APP_ICON, DB_PATH, DOWNLOADS_PATH, EXPORT_NAME, POSTER_PATH, ROOT_PATH
 
 init_db()
 
@@ -100,6 +101,46 @@ def get_movie_data(folder_name: str) -> list:
     """
     return get_data(folder_name)
 
+
+@eel.expose
+def export_data():
+    """
+        Export posters and db as zip(.ms) file to the downloads directory
+    """
+    try:
+        with ZipFile(EXPORT_NAME, 'w', ZIP_DEFLATED) as zip_file:
+            zip_file.write(DB_PATH, basename(DB_PATH))
+            for poster_name in listdir(POSTER_PATH):
+                zip_file.write(join(POSTER_PATH, poster_name), join(basename(POSTER_PATH), poster_name))
+    except Exception as error:
+        print('EXPORT ERROR : ', error)
+        return False
+    else:
+        return DOWNLOADS_PATH
+
+
+@eel.expose
+def import_data():
+    """
+        Extract .ms file and load posters and db
+    """
+    try:
+        root = Tk()
+        root.iconbitmap(APP_ICON)
+        root.attributes("-topmost", True)
+        root.withdraw()
+
+        export_file = filedialog.askopenfilename(
+            defaultextension='.ms', filetypes=[('MovieSieve file', '*.ms')], initialdir=DOWNLOADS_PATH, title="Select Export File")
+
+        if export_file and export_file.endswith('.ms'):
+            with ZipFile(export_file, 'r') as zip_file:
+                zip_file.extractall(join(ROOT_PATH, 'web'))
+    except Exception as error:
+        print('EXPORT ERROR : ', error)
+        return False
+    else:
+        return export_file
 
 eel.start('index.html')
 
