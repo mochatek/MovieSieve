@@ -8,18 +8,21 @@ const createMovie = () => {
   return {
     subscribe,
     getMovies: async () => {
-      processing.set("Retrieving Movies...");
+      processing.set({ message: "Retrieving Movies...", progress: 0 });
       const movies = await getMovies();
-      processing.set("");
+      processing.set({ message: "Retrieving Movies...", progress: 100 });
+      setTimeout(() => processing.set(null), 1000);
       set(movies);
     },
     addMovie: async (movieName, data, poster_url) => {
+      processing.set({ message: "Adding Movie..." });
       const { genre } = await addMovie(movieName, data, poster_url);
       update((movies) =>
         movies.map((movie) =>
           movie.name === movieName ? { ...movie, genre } : movie
         )
       );
+      processing.set(null);
     },
     getMovieData: async (movieName) => {
       if (!(movieName in dataCache)) {
@@ -47,10 +50,18 @@ const createContentKey = () => {
         if (selected) {
           return selected.genre === "N/A" ? "add" : "details";
         } else {
-          return $selectedFilter === "N/A" ? "error" : "";
+          return $selectedFilter === "N/A"
+            ? $filteredMovies.length
+              ? "error"
+              : ""
+            : "";
         }
       }
-      return $selectedFilter === "N/A" ? "error" : "";
+      return $selectedFilter === "N/A"
+        ? $filteredMovies.length
+          ? "error"
+          : ""
+        : "";
     }
   );
 
@@ -91,7 +102,6 @@ export const filteredMovies = derived(
     )
 );
 export const contentKey = createContentKey();
-export const processing = writable("");
+export const processing = writable(null);
 
 // clean genres while adding movie details in backend
-// loading in contentarea

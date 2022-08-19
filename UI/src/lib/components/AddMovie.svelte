@@ -1,8 +1,8 @@
 <script>
   import { movies, selectedMovie } from "../../store";
 
-  const addMovie = (movieName) => {
-    movies.addMovie(movieName);
+  const addMovie = () => {
+    movies.addMovie($selectedMovie);
   };
 </script>
 

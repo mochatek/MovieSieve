@@ -286,7 +286,7 @@ footer:not(.tool-group-name) {
 
 #statusbar {
   padding: 0.25rem 1rem;
-  font-size: small;
+  font-size: 12px;
   background-color: var(--shade);
   color: var(--grey);
   display: flex;
@@ -398,6 +398,20 @@ input:read-only {
 .loading {
   color: var(--white);
   animation: spin 0.6s ease-in-out 0s infinite forwards;
+}
+
+.progress {
+  height: 1rem;
+  margin: 0 0.5rem;
+  border-radius: 3px;
+  background-color: var(--green-dark-trans);
+}
+
+.progress div {
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--green-light-trans);
+  transition: width 0.6s ease-out;
 }
 
 @keyframes spin {

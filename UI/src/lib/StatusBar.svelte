@@ -17,7 +17,7 @@
 <p id="statusbar">
   <span id="status">
     {#if $processing}
-      <i class="fa fa-spinner loading" /> {$processing}
+      <i class="fa fa-spinner loading" /> {$processing.message}
     {:else}
       {`${formatPlural(total, "Record")} ,  ${filtered} Filtered , ${na} N/A`}
     {/if}
