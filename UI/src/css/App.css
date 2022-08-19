@@ -378,7 +378,7 @@ footer:not(.tool-group-name) {
   padding: 0.25rem 0.5rem;
   background: linear-gradient(to right, var(--green-dark), var(--green-light));
   color: var(--black);
-  transition:all 0.6s
+  transition: all 0.6s linear;
 }
 
 .row button:hover {
@@ -389,6 +389,13 @@ footer:not(.tool-group-name) {
   background: none !important;
   color: var(--shade) !important;
   -webkit-text-fill-color: var(--shade) !important;
+}
+
+button.disabled, button:disabled {
+  background: var(--shade) !important;
+  color: var(--shade) !important;
+  -webkit-text-fill-color: var(--shade) !important;
+  border: 1px solid var(--shade);
 }
 
 input:read-only {
