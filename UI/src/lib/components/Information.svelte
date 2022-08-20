@@ -37,6 +37,10 @@
   <li>Click the movie to add its details manually</li>
   <li>
     Use the <mark class="alert"><i class="fa fa-arrow-circle-down" /></mark> button
-    in toolbar to export saved details
+    in toolbar to import data from MovieSieve(.ms) file
+  </li>
+  <li>
+    Use the <mark class="alert"><i class="fa fa-arrow-circle-up" /></mark> button
+    in toolbar to export data into MovieSieve(.ms) file
   </li>
 </header>

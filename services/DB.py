@@ -53,7 +53,7 @@ def get_many(folder_names):
     conn = connect(DB_PATH)
     cursor = conn.cursor()
     movies = cursor.execute(
-        "SELECT folder_name, genres FROM movies WHERE folder_name IN ({seq}) ORDER BY folder_name".format(seq=','.join(['?']*len(folder_names))), tuple(folder_names)).fetchall()
+        "SELECT folder_name, genres FROM movies WHERE folder_name IN ({seq})".format(seq=','.join(['?']*len(folder_names))), tuple(folder_names)).fetchall()
     cursor.close()
     conn.close()
     return marshal_response(movies)

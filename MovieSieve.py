@@ -90,6 +90,7 @@ def get_movies(movie_directory: str) -> dict:
 
         insert_many(fetched_movies)
 
+    result_movies.sort(key = lambda movie: movie['name'])
     return result_movies
 
 

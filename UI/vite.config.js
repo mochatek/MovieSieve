@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     outDir: "../web",
     // emptyOutDir: true,
-    // sourceMap: 'inline',
+    // sourcemap: 'inline',
   },
   plugins: [svelte()],
 });

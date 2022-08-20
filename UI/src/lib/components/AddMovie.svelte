@@ -5,10 +5,10 @@
     movies.addMovie(
       $selectedMovie,
       {
-        Certificate,
+        Rated,
         Genre,
         Runtime,
-        Release,
+        Released,
         Country,
         Language,
         imdbRating,
@@ -22,10 +22,10 @@
     );
   };
 
-  let Certificate = "";
+  let Rated = "";
   let Genre = "";
   let Runtime = "";
-  let Release = "";
+  let Released = "";
   let Country = "";
   let Language = "";
   let imdbRating = "";
@@ -37,10 +37,10 @@
   let Plot = "";
 
   $: disabled = [
-    Certificate,
+    Rated,
     Genre,
     Runtime,
-    Release,
+    Released,
     Country,
     Language,
     imdbRating,
@@ -61,12 +61,12 @@
 <form id="add-movie">
   <div class="row">
     <input type="text" readonly value={$selectedMovie} />
-    <input type="text" placeholder="Certificate" bind:value={Certificate} />
+    <input type="text" placeholder="Certificate" bind:value={Rated} />
     <input type="text" placeholder="Genre" bind:value={Genre} />
     <input type="text" placeholder="Runtime" bind:value={Runtime} />
   </div>
   <div class="row">
-    <input type="text" placeholder="Release" bind:value={Release} />
+    <input type="text" placeholder="Released" bind:value={Released} />
     <input type="text" placeholder="Country" bind:value={Country} />
     <input type="text" placeholder="Language" bind:value={Language} />
     <input type="text" placeholder="IMDb Rating" bind:value={imdbRating} />
