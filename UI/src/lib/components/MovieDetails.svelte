@@ -1,10 +1,12 @@
 <script>
   import { movies, selectedMovie } from "../../store";
 
+  let data = {};
+
   const extractNameYear = (name) =>
     name.split("(").map((_) => _.replace(")", ""));
 
-  let data = {};
+  const showNA = () => (Poster = "/Posters/NA.png");
 
   $: {
     (async () => {
@@ -28,6 +30,7 @@
   $: Actors = data?.Actors;
   $: Awards = data?.Awards;
   $: Plot = data?.Plot;
+  $: Poster = `/Posters/${$selectedMovie}.jpg`;
 </script>
 
 <header id="movie-header">
@@ -47,7 +50,7 @@
 </header>
 <div id="movie-content">
   <div id="details-3">
-    <img src={`/Posters/${$selectedMovie}.jpg`} alt="Poster" />
+    <img src={Poster} alt="Poster" on:error={showNA} />
     <table id="technical-details">
       <tbody>
         <tr>

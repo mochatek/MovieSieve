@@ -14,8 +14,8 @@ def init_progress(total: int, remaining: int):
 
     def update_progress():
         nonlocal completed
-        # eel.update_progress(completed * 100 / total)
         completed += 1
+        eel.update_progress(completed * 100 / total)()
 
     return update_progress
 

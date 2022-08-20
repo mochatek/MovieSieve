@@ -1,5 +1,10 @@
 import { derived, writable } from "svelte/store";
 
+window.eel.expose(update_progress, "update_progress");
+function update_progress(progress) {
+  processing.update((process) => ({ ...process, progress }));
+}
+
 const createMovie = () => {
   const { subscribe, set, update } = writable([]);
   const dataCache = {};
@@ -15,7 +20,10 @@ const createMovie = () => {
     if (movie_directory) {
       processing.set({ message: "Retrieving Movies", progress: 0 });
       const movies = await window.eel.get_movies(movie_directory)();
-      processing.set(null);
+      const tId = setTimeout(() => {
+        processing.set(null);
+        clearTimeout(tId);
+      }, 500);
       set(movies);
     } else {
       processing.set(null);

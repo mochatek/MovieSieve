@@ -4,7 +4,7 @@ from json import dumps, loads
 
 
 def clean_genre(genres):
-    return [genre.strip().capitalize() for genre in genres.split(',') if genre.strip()]
+    return ''.join(genre.strip().capitalize() for genre in genres.split(',') if genre.strip())
 
 def construct_values(folder_name, data):
     return (folder_name, clean_genre(data.get('Genre', '')) or 'N/A', dumps(data))

@@ -245,6 +245,7 @@ main {
   height: auto;
   object-fit: contain;
   border-radius: 5%;
+  background: linear-gradient(to right, var(--green-dark-trans), transparent);
 }
 
 #technical-details {
