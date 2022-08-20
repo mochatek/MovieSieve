@@ -3,6 +3,7 @@ web/*
 !web/Posters/NA.png
 !web/favicon.ico
 *.db
+*.env
 __pycache__
 
 *.log
