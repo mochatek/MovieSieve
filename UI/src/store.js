@@ -30,6 +30,13 @@ const createMovie = () => {
     }
   };
 
+  const searchImdbId = async (imdbID) => {
+    processing.set({ message: `Searching movie for #IMDb: ${imdbID}` });
+    const data = await window.eel.search_imdbId(imdbID)();
+    processing.set(null);
+    return data;
+  };
+
   const addMovie = async (movieName, data, poster_url) => {
     processing.set({ message: "Adding Movie" });
     const { genre } = await window.eel.add_movie(movieName, data, poster_url)();
@@ -69,6 +76,7 @@ const createMovie = () => {
   return {
     subscribe,
     getMovies,
+    searchImdbId,
     addMovie,
     getMovieData,
     exportData,

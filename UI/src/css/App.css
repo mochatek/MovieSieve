@@ -386,6 +386,10 @@ footer:not(.tool-group-name) {
   background: linear-gradient(to right, var(--green-light), var(--green-dark));
 }
 
+.row #imdbID {
+  width: 90%;
+}
+
 .disabled > .fa {
   background: none !important;
   color: var(--shade) !important;

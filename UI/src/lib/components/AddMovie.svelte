@@ -22,6 +22,26 @@
     );
   };
 
+  const searchImdbId = async () => {
+    const data = await movies.searchImdbId(imdbID);
+    if (data) {
+      Rated = data.Rated;
+      Genre = data.Genre;
+      Runtime = data.Runtime;
+      Released = data.Released;
+      Country = data.Country;
+      Language = data.Language;
+      imdbRating = data.imdbRating;
+      Director = data.Director;
+      Writer = data.Writer;
+      Actors = data.Actors;
+      Awards = data.Awards;
+      Poster = data.Poster;
+      Plot = data.Plot;
+    }
+  };
+
+  let imdbID = "";
   let Rated = "";
   let Genre = "";
   let Runtime = "";
@@ -36,7 +56,26 @@
   let Poster = "";
   let Plot = "";
 
-  $: disabled = [
+  $: {
+    if ($selectedMovie) {
+      imdbID = "";
+      Rated = "";
+      Genre = "";
+      Runtime = "";
+      Released = "";
+      Country = "";
+      Language = "";
+      imdbRating = "";
+      Director = "";
+      Writer = "";
+      Actors = "";
+      Awards = "";
+      Poster = "";
+      Plot = "";
+    }
+  }
+
+  $: save_disabled = [
     Rated,
     Genre,
     Runtime,
@@ -50,7 +89,9 @@
     Awards,
     Poster,
     Plot,
-  ].some((input) => input.trim() == "");
+  ].some((input) => !input.trim());
+
+  $: search_disabled = !imdbID;
 </script>
 
 <header class="info">
@@ -59,6 +100,13 @@
   </p>
 </header>
 <form id="add-movie">
+  <div class="row">
+    <input type="text" placeholder="IMDb ID" bind:value={imdbID} id="imdbID" />
+    <button
+      class:disabled={search_disabled}
+      on:click|preventDefault={searchImdbId}><i class="fa fa-search" /></button
+    >
+  </div>
   <div class="row">
     <input type="text" readonly value={$selectedMovie} />
     <input type="text" placeholder="Certificate" bind:value={Rated} />
@@ -84,8 +132,10 @@
     <textarea placeholder="Plot Summary" bind:value={Plot} />
   </div>
   <div class="row">
-    <button type="submit" class:disabled on:click|preventDefault={addMovie}
-      >Save</button
+    <button
+      type="submit"
+      class:disabled={save_disabled}
+      on:click|preventDefault={addMovie}>Save</button
     >
   </div>
 </form>

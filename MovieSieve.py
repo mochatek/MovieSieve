@@ -3,7 +3,7 @@ from os import listdir
 from os.path import join, isdir, basename
 from zipfile import ZipFile, ZIP_DEFLATED
 from tkinter import Tk, filedialog
-from services.API import fetch_movies, save_poster, run_async
+from services.API import fetch_movies, save_poster, search_by_imdbId, run_async
 from services.DB import init_db, insert_one, insert_many, get_data, get_many
 from constants import APP_ICON, DB_PATH, DOWNLOADS_PATH, EXPORT_NAME, POSTER_PATH, ROOT_PATH
 
@@ -40,6 +40,14 @@ def browse_movie_directory() -> str:
         initialdir=DOWNLOADS_PATH, title="Select Movie Directory")
     return movie_directory
 
+
+@eel.expose
+def search_imdbId(imdb_id: str):
+    """
+        Retrieve movie data by searching for imdb_id
+        :param str imdb_id: IMDb Id of the movie
+    """
+    return run_async(search_by_imdbId, imdb_id)
 
 @eel.expose
 def add_movie(folder_name: str, data: dict, poster_url: str) -> bool:

@@ -29,8 +29,11 @@ def generate_poster_path(folder_name: str):
     return join(POSTER_PATH, filename)
 
 
-def extract_required_details(data: dict):
-    return {key: value for key, value in data.items() if key in REQUIRED_MOVIE_PROPS}
+def extract_required_details(data: dict, include_poster = False):
+    details = {key: value for key, value in data.items() if key in REQUIRED_MOVIE_PROPS}
+    if include_poster:
+        details['Poster'] = data.get('Poster', '')
+    return details
 
 
 async def save_poster(folder_name: str, poster_url: str):
@@ -71,6 +74,25 @@ async def fetch_movies(folder_names: List[str], update_progress: Callable):
     async with ClientSession() as session:
         movies = await gather(*(fetch_movie(folder_name, session, lock, update_progress) for folder_name in folder_names))
     return movies
+
+
+async def search_by_imdbId(imdb_id: str):
+    try:
+        data = None
+        params = {
+                'i': imdb_id,
+                'apikey': API_KEY
+            }
+        async with ClientSession() as session:
+            async with session.get(API_ENDPOINT, params=params) as api_response:
+                assert api_response.status == 200
+                movie_details = await api_response.json()
+                validate_api_data(movie_details)
+                data = extract_required_details(movie_details, True)
+    except Exception as error:
+        print(f'SEARCH MOVIE ERROR ({imdb_id}) : ', error)
+    finally:
+        return data
 
 
 def run_async(function: Callable, *args):
