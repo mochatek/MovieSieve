@@ -15,7 +15,7 @@ def marshal_response(movies):
 def init_db():
     conn = connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS movies (id INTEGER PRIMARY KEY AUTOINCREMENT, folder_name TEXT, genres TEXT, data BLOB)')
+    cursor.execute('CREATE TABLE IF NOT EXISTS movies (id INTEGER PRIMARY KEY AUTOINCREMENT, folder_name TEXT UNIQUE, genres TEXT, data BLOB)')
     conn.commit()
     cursor.close()
     conn.close()
@@ -57,3 +57,19 @@ def get_many(folder_names):
     cursor.close()
     conn.close()
     return marshal_response(movies)
+
+
+def import_from(temp_db):
+    conn = connect(temp_db)
+    cursor = conn.cursor()
+    imported_records = cursor.execute('SELECT folder_name, genres, data FROM movies').fetchall()
+    cursor.close()
+    conn.close()
+
+    if len(imported_records):
+        conn = connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.executemany('INSERT OR IGNORE INTO movies(folder_name, genres, data) VALUES(?, ?, ?)', tuple(imported_records))
+        conn.commit()
+        cursor.close()
+        conn.close()

@@ -8,6 +8,7 @@ APP_ICON = path.join(ROOT_PATH, 'web', 'favicon.ico')
 DOWNLOADS_PATH = path.join(path.expanduser('~'), 'Downloads')
 POSTER_PATH = path.join(ROOT_PATH, 'web', 'Posters')
 DB_PATH = path.join(ROOT_PATH, 'web', 'movies.db')
+TEMP_PATH = path.join(ROOT_PATH, 'web', 'temp')
 EXPORT_NAME = path.join(DOWNLOADS_PATH, f'MovieSieve_{date.today()}.ms')
 
 API_ENDPOINT = 'http://www.omdbapi.com/'

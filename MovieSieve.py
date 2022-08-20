@@ -1,11 +1,12 @@
 import eel
 from os import listdir
-from os.path import join, isdir, basename
+from os.path import join, isdir, basename, dirname
+from shutil import rmtree
 from zipfile import ZipFile, ZIP_DEFLATED
 from tkinter import Tk, filedialog
 from services.API import fetch_movies, save_poster, search_by_imdbId, run_async
-from services.DB import init_db, insert_one, insert_many, get_data, get_many
-from constants import APP_ICON, DB_PATH, DOWNLOADS_PATH, EXPORT_NAME, POSTER_PATH, ROOT_PATH
+from services.DB import init_db, insert_one, insert_many, get_data, get_many, import_from
+from constants import APP_ICON, DB_PATH, DOWNLOADS_PATH, EXPORT_NAME, POSTER_PATH, TEMP_PATH
 
 init_db()
 
@@ -144,9 +145,18 @@ def import_data():
 
         if export_file and export_file.endswith('.ms'):
             with ZipFile(export_file, 'r') as zip_file:
-                zip_file.extractall(join(ROOT_PATH, 'web'))
+                for item in zip_file.namelist():
+                    if item.startswith('Posters/'):
+                        zip_file.extract(item, dirname(POSTER_PATH))
+                    elif item == 'movies.db':
+                        zip_file.extract(item, TEMP_PATH)
+
+            import_from(join(TEMP_PATH, 'movies.db'))
+
+            rmtree(TEMP_PATH)
+
     except Exception as error:
-        print('EXPORT ERROR : ', error)
+        print('IMPORT ERROR : ', error)
         return False
     else:
         return export_file

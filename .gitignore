@@ -1,6 +1,8 @@
 env/
-posters/*
-!posters/default.jpg
+web/*
+!web/Posters/NA.png
+!web/favicon.ico
+*.db
 __pycache__
 
 *.log
