@@ -153,7 +153,3 @@ export const filteredMovies = derived(
 );
 export const contentKey = createContentKey();
 export const processing = writable(null);
-
-// Send data in addMovie
-// Extend posters and data to whatever existing
-// Create toast
