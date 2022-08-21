@@ -4,8 +4,10 @@ web/*
 !web/favicon.ico
 *.db
 *.env
+*.spec
 __pycache__
 
 *.log
 node_modules
 dist
+build
