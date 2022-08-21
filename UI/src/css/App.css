@@ -15,6 +15,8 @@
   --green-light-trans: hsla(112, 77%, 61%, 0.2);
   --orange-dark: hsl(46, 77%, 59%);
   --orange-light: hsl(47, 100%, 78%);
+  --red: hsl(4, 90%, 58%);
+  --toast-duration: 3s;
 }
 
 html {
@@ -149,6 +151,7 @@ main {
 }
 
 #folders li {
+  font-size: small;
   font-weight: 300;
   padding: 0.5rem 1.5rem;
   border-bottom: 1px solid var(--shade);
@@ -160,8 +163,8 @@ main {
   color: var(--green-light);
 }
 
-#folders li.error {
-  color: hsl(4, 90%, 58%);
+.error {
+  color: var(--red);
 }
 
 #folders li .fa {
@@ -387,7 +390,7 @@ footer:not(.tool-group-name) {
 }
 
 .row #imdbID {
-  width: 90%;
+  width: 95%;
 }
 
 .disabled > .fa {
@@ -424,6 +427,80 @@ input:read-only {
   border-radius: 3px;
   background-color: var(--green-light-trans);
   transition: width 0.6s ease-out;
+}
+
+.toast {
+  position: absolute;
+  opacity: 0;
+  top: -2rem;
+  right: 1rem;
+  z-index: 1;
+  background-color: var(--shade);
+  animation: toast var(--toast-duration) ease-in-out 0s 1 forwards;
+}
+
+.toast .container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.toast .icon {
+  padding: 0.5rem 1rem;
+  align-self: stretch;
+  color: var(--green-light);
+  background-color: var(--black);
+}
+
+.toast .message {
+  align-self: stretch;
+  padding: .5rem 1rem;
+  font-weight: 400;
+  font-size: small;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to -right, transparent, var(--shade));
+  }
+
+.toast .timer {
+  height: 2px;
+  width: 100%;
+  background-color: var(--green-light);
+  animation: timer var(--toast-duration) linear 0s 1 forwards;
+}
+
+.toast .timer.error {
+  background-color: var(--red);
+}
+
+@keyframes toast {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    top: 1rem;
+  }
+  80% {
+    opacity: 1;
+    top: 1rem;
+  }
+  100% {
+    opacity: 0;
+    top: -2rem;
+  }
+}
+
+@keyframes timer {
+  20% {
+    width: 100%;
+  }
+  80% {
+    width: 0;
+  }
+  100% {
+    width: 0;
+  }
 }
 
 @keyframes spin {

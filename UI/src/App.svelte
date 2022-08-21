@@ -6,6 +6,8 @@
   import SideBar from "./lib/SideBar.svelte";
   import ContentArea from "./lib/ContentArea.svelte";
   import StatusBar from "./lib/StatusBar.svelte";
+  import Toast from "./lib/Toast.svelte";
+  import { toast } from "./store";
 </script>
 
 <header>
@@ -19,3 +21,7 @@
 <footer>
   <StatusBar />
 </footer>
+
+{#if $toast}
+  <Toast message={$toast.message} status={$toast.status} />
+{/if}

@@ -115,18 +115,28 @@ def get_movie_data(folder_name: str) -> list:
 @eel.expose
 def export_data():
     """
-        Export posters and db as zip(.ms) file to the downloads directory
+        Export posters and db as zip(.ms) file to the chosen directory
     """
     try:
-        with ZipFile(EXPORT_NAME, 'w', ZIP_DEFLATED) as zip_file:
-            zip_file.write(DB_PATH, basename(DB_PATH))
-            for poster_name in listdir(POSTER_PATH):
-                zip_file.write(join(POSTER_PATH, poster_name), join(basename(POSTER_PATH), poster_name))
+        root = Tk()
+        root.iconbitmap(APP_ICON)
+        root.attributes("-topmost", True)
+        root.withdraw()
+
+        export_folder = filedialog.askdirectory(
+        initialdir=DOWNLOADS_PATH, title="Select Export Folder")
+
+        if export_folder:
+            with ZipFile(join(export_folder, EXPORT_NAME), 'w', ZIP_DEFLATED) as zip_file:
+                zip_file.write(DB_PATH, basename(DB_PATH))
+                for poster_name in listdir(POSTER_PATH):
+                    zip_file.write(join(POSTER_PATH, poster_name), join(basename(POSTER_PATH), poster_name))
+
+            return {"message": 'Export Successful', "status": 'success'}
+        return {"message": 'Export Cancelled', "status": 'cancel'}
     except Exception as error:
         print('EXPORT ERROR : ', error)
-        return False
-    else:
-        return DOWNLOADS_PATH
+        return {"message": 'Export Failed', "status": 'error'}
 
 
 @eel.expose
@@ -152,14 +162,15 @@ def import_data():
                         zip_file.extract(item, TEMP_PATH)
 
             import_from(join(TEMP_PATH, 'movies.db'))
-
             rmtree(TEMP_PATH)
+
+            return {"message": 'Import Successful', "status": 'success'}
+        return {"message": 'Import Cancelled', "status": 'cancel'}
 
     except Exception as error:
         print('IMPORT ERROR : ', error)
-        return False
-    else:
-        return export_file
+        return {"message": 'Import Failed', "status": 'error'}
+
 
 eel.start('index.html')
 

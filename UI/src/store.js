@@ -58,19 +58,17 @@ const createMovie = () => {
 
   const exportData = async () => {
     processing.set({ message: "Exporting Data" });
-    const exported = await window.eel.export_data()();
-    processing.set({ message: `Export ${exported ? "Successful" : "Failed"}` });
-    const tId = setTimeout(() => {
-      processing.set(null);
-      clearTimeout(tId);
-    }, 1000);
+    const exportResponse = await window.eel.export_data()();
+    processing.set(null);
+    exportResponse.status !== "cancel" && toast.show(exportResponse);
   };
 
   const importData = async () => {
     processing.set({ message: "Importing Data" });
-    const imported = await window.eel.import_data()();
+    const importResponse = await window.eel.import_data()();
     processing.set(null);
-    imported && (await getMovies(false));
+    importResponse.status !== "cancel" && toast.show(importResponse);
+    importResponse.status === "success" && (await getMovies(false));
   };
 
   return {
@@ -121,6 +119,23 @@ const createContentKey = () => {
   };
 };
 
+const createToast = () => {
+  const { subscribe, set } = writable(null);
+  let tId;
+
+  const show = ({ message, status }) => {
+    set({ message, status });
+
+    tId = setTimeout(() => {
+      set(null);
+      clearTimeout(tId);
+    }, 3000);
+  };
+
+  return { subscribe, show };
+};
+
+export const toast = createToast();
 export const movies = createMovie();
 export const selectedMovie = writable("");
 export const filterOptions = derived([movies], ([$movies]) => [
