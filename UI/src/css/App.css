@@ -164,7 +164,7 @@ main {
 }
 
 .error {
-  color: var(--red);
+  color: var(--red) !important;
 }
 
 #folders li .fa {
