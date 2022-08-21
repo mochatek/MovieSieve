@@ -2,7 +2,7 @@
 
 Desktop application developed using python-eel and svelte, which lets you filter movies from any folder of your choice, on the basis of genre, search movies by name, and see basic details of the movie.
 
-![MovieSieve](https://github.com/mochatek/MovieSieve/blob/master/Screenshot.PNG)
+![MovieSieve](https://github.com/mochatek/MovieSieve/blob/master/Screenshot.jpg)
 
 ## Prerequisites
 
