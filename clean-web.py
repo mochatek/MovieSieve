@@ -1,8 +1,8 @@
-from constants import ROOT_PATH, POSTER_PATH, APP_ICON
+from constants import ROOT_PATH, POSTER_PATH, APP_ICON, ENV_FILE
 from os.path import join, isdir
 from os import listdir, rmdir, remove
 
-WHITELIST = [POSTER_PATH, join(POSTER_PATH, 'NA.png'), APP_ICON]
+WHITELIST = (POSTER_PATH, join(POSTER_PATH, 'NA.png'), ENV_FILE, APP_ICON)
 
 def delete_recursively(path):
     if not isdir(path):
