@@ -21,6 +21,20 @@ def init_progress(total: int, remaining: int):
     return update_progress
 
 
+def openDialog(type: str, title: str):
+    root = Tk()
+    root.overrideredirect(1)
+    root.withdraw()
+    root.iconbitmap(APP_ICON)
+    root.attributes("-topmost", True)
+
+    if type == 'folder':
+        return filedialog.askdirectory(
+            initialdir=DOWNLOADS_PATH, title=title)
+    elif type == 'file':
+        return filedialog.askopenfilename(
+            defaultextension='.ms', filetypes=[('MovieSieve file', '*.ms')], initialdir=DOWNLOADS_PATH, title=title)
+
 eel.init('web')
 
 
@@ -32,14 +46,7 @@ def browse_movie_directory() -> str:
 
         :return: Movie directory path
     """
-    root = Tk()
-    root.iconbitmap(APP_ICON)
-    root.attributes("-topmost", True)
-    root.withdraw()
-
-    movie_directory = filedialog.askdirectory(
-        initialdir=DOWNLOADS_PATH, title="Select Movie Directory")
-    return movie_directory
+    return openDialog('folder', "Select Movie Directory")
 
 
 @eel.expose
@@ -118,13 +125,7 @@ def export_data():
         Export posters and db as zip(.ms) file to the chosen directory
     """
     try:
-        root = Tk()
-        root.iconbitmap(APP_ICON)
-        root.attributes("-topmost", True)
-        root.withdraw()
-
-        export_folder = filedialog.askdirectory(
-        initialdir=DOWNLOADS_PATH, title="Select Export Folder")
+        export_folder = openDialog("folder", "Select Export Folder")
 
         if export_folder:
             with ZipFile(join(export_folder, EXPORT_NAME), 'w', ZIP_DEFLATED) as zip_file:
@@ -145,13 +146,7 @@ def import_data():
         Extract .ms file and load posters and db
     """
     try:
-        root = Tk()
-        root.iconbitmap(APP_ICON)
-        root.attributes("-topmost", True)
-        root.withdraw()
-
-        export_file = filedialog.askopenfilename(
-            defaultextension='.ms', filetypes=[('MovieSieve file', '*.ms')], initialdir=DOWNLOADS_PATH, title="Select Export File")
+        export_file = openDialog("file", "Select Export File")
 
         if export_file and export_file.endswith('.ms'):
             with ZipFile(export_file, 'r') as zip_file:
