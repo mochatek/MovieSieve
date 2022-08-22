@@ -4,8 +4,8 @@ from os.path import join, isdir
 from shutil import rmtree
 from services.API import fetch_movies, save_poster, search_by_imdbId, run_async
 from services.DB import init_db, insert_one, insert_many, insert_from, get_data, get_many
-from services.core import init_app_data, open_dialog, export_to, import_from, persist_app_data
-from constants import TEMP_PATH, EXPORT_NAME
+from services.core import init_app_data, open_dialog, export_to, import_from
+from constants import TEMP_PATH, EXPORT_NAME, APP_DATA_FILE
 
 
 def init_progress(total: int, remaining: int):
@@ -143,7 +143,22 @@ def import_data():
         return {"message": 'Import Failed', "status": 'error'}
 
 
-eel.start('index.html', close_callback=persist_app_data)
+@eel.expose
+def save_app_data():
+    """
+        Save application data to MovieSieve.data
+    """
+    try:
+        export_to(APP_DATA_FILE)
+        return {"message": 'Data Saved', "status": 'success'}
+    except Exception as error:
+        print('IMPORT ERROR : ', error)
+        return {"message": 'Save Failed', "status": 'error'}
+
+
+eel.start('index.html',
+    # close_callback=persist_app_data,
+    cmdline_args=['--disable-sync', '--incognito', '--no-experiments', '--disable-background-mode'])
 
 
 # python -m eel MovieSieve.py web --onefile --noconsole --icon=web/favicon.ico

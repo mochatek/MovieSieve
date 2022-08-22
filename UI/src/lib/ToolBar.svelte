@@ -6,6 +6,7 @@
   const getMovies = () => movies.getMovies();
   const exportData = () => movies.exportData();
   const importData = () => movies.importData();
+  const saveData = () => movies.saveData();
   const toggleInfo = () => contentKey.set($contentKey === "info" ? "" : "info");
 </script>
 
@@ -36,6 +37,9 @@
         on:click={exportData}
       >
         <i class="fa fa-arrow-circle-up" />
+      </li>
+      <li role="button" title="Save" class:disabled on:click={saveData}>
+        <i class="fa fa-save" />
       </li>
     </ul>
     <footer class="tool-group-name">Manage</footer>

@@ -44,10 +44,11 @@ def init_app_data():
         import_from(APP_DATA_FILE)
 
 
-def persist_app_data(route: str, webSockets: list):
-    try:
-        export_to(APP_DATA_FILE)
-    except Exception as error:
-        print('EXPORT APP_DATA ERROR : ', error)
-    finally:
-        exit()
+# def persist_app_data(route: str, websockets: list):
+#     try:
+#         export_to(APP_DATA_FILE)
+#     except Exception as error:
+#         print('EXPORT APP_DATA ERROR : ', error)
+#     finally:
+#         if not websockets:
+#             exit()

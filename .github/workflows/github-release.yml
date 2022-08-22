@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-release:
-    name: Build executable from source and deploy artifacts to GitHub release
+    name: Build and release MovieSieve executable
     runs-on: windows-latest
 
     steps:

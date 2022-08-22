@@ -71,6 +71,13 @@ const createMovie = () => {
     importResponse.status === "success" && (await getMovies(false));
   };
 
+  const saveData = async () => {
+    processing.set({ message: "Saving Data" });
+    const saveResponse = await window.eel.save_app_data()();
+    processing.set(null);
+    toast.show(saveResponse);
+  };
+
   return {
     subscribe,
     getMovies,
@@ -79,6 +86,7 @@ const createMovie = () => {
     getMovieData,
     exportData,
     importData,
+    saveData,
   };
 };
 

@@ -21,11 +21,19 @@ Desktop application developed using python-eel and svelte, which lets you filter
 - Click the movie to add its details manually
 - Use the `Import ⬇️` button in toolbar to import data from MovieSieve(.ms) file
 - Use the `Export ⬆️` button in toolbar to export data into MovieSieve(.ms) file
+- Please `Save 💾` before exiting. Else, latest additions wont be available, next time you open the app.
 
-## Installation Guide
+## Launching Application from Source Code
 
 - Install the necessary libraries by running the command `pip install -r requirements.txt`
 - cd into UI folder and install the dependancies through `npm install`
 - Compile the svelte app by running the command `npm run build`
-- Launch the application by running the file `MovieSieve.py`
+- Launch the application by executing the file `MovieSieve.py`
 - Refer [Eel](https://github.com/ChrisKnott/Eel) to understand the working and for packaging info.
+
+## Installation Guide
+
+- Download the latest version executable (MovieSieve.exe) from [here](https://github.com/mochatek/MovieSieve/releases)
+- Run the .exe file to launch the application
+- Once you launch the application, MovieSieve.data file will be created next to the .exe file
+- ⚠️ _Application data will be stored in `MovieSieve.data`. Hence, entire data will be lost if it is deleted._
