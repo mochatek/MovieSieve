@@ -45,5 +45,9 @@ def init_app_data():
 
 
 def persist_app_data(route: str, webSockets: list):
-    export_to(APP_DATA_FILE)
-    exit()
+    try:
+        export_to(APP_DATA_FILE)
+    except Exception as error:
+        print('EXPORT APP_DATA ERROR : ', error)
+    finally:
+        exit()
