@@ -1,14 +1,12 @@
 import eel
 from os import listdir
-from os.path import join, isdir, basename, dirname
+from os.path import join, isdir
 from shutil import rmtree
-from zipfile import ZipFile, ZIP_DEFLATED
-from tkinter import Tk, filedialog
 from services.API import fetch_movies, save_poster, search_by_imdbId, run_async
-from services.DB import init_db, insert_one, insert_many, get_data, get_many, import_from
-from constants import APP_ICON, DB_PATH, DOWNLOADS_PATH, EXPORT_NAME, POSTER_PATH, TEMP_PATH
+from services.DB import init_db, insert_one, insert_many, insert_from, get_data, get_many
+from services.core import init_app_data, open_dialog, export_to, import_from, persist_app_data
+from constants import TEMP_PATH, EXPORT_NAME
 
-init_db()
 
 def init_progress(total: int, remaining: int):
     completed = total - remaining
@@ -21,20 +19,8 @@ def init_progress(total: int, remaining: int):
     return update_progress
 
 
-def openDialog(type: str, title: str):
-    root = Tk()
-    root.overrideredirect(1)
-    root.withdraw()
-    root.iconbitmap(APP_ICON)
-    root.attributes("-topmost", True)
-
-    if type == 'folder':
-        return filedialog.askdirectory(
-            initialdir=DOWNLOADS_PATH, title=title)
-    elif type == 'file':
-        return filedialog.askopenfilename(
-            defaultextension='.ms', filetypes=[('MovieSieve file', '*.ms')], initialdir=DOWNLOADS_PATH, title=title)
-
+init_app_data()
+init_db()
 eel.init('web')
 
 
@@ -46,7 +32,7 @@ def browse_movie_directory() -> str:
 
         :return: Movie directory path
     """
-    return openDialog('folder', "Select Movie Directory")
+    return open_dialog('folder', "Select Movie Directory")
 
 
 @eel.expose
@@ -125,15 +111,12 @@ def export_data():
         Export posters and db as zip(.ms) file to the chosen directory
     """
     try:
-        export_folder = openDialog("folder", "Select Export Folder")
+        export_folder = open_dialog("folder", "Select Export Folder")
 
         if export_folder:
-            with ZipFile(join(export_folder, EXPORT_NAME), 'w', ZIP_DEFLATED) as zip_file:
-                zip_file.write(DB_PATH, basename(DB_PATH))
-                for poster_name in listdir(POSTER_PATH):
-                    zip_file.write(join(POSTER_PATH, poster_name), join(basename(POSTER_PATH), poster_name))
-
+            export_to(join(export_folder, EXPORT_NAME))
             return {"message": 'Export Successful', "status": 'success'}
+
         return {"message": 'Export Cancelled', "status": 'cancel'}
     except Exception as error:
         print('EXPORT ERROR : ', error)
@@ -146,28 +129,21 @@ def import_data():
         Extract .ms file and load posters and db
     """
     try:
-        export_file = openDialog("file", "Select Export File")
+        export_file = open_dialog("file", "Select Export File")
 
         if export_file and export_file.endswith('.ms'):
-            with ZipFile(export_file, 'r') as zip_file:
-                for item in zip_file.namelist():
-                    if item.startswith('Posters/'):
-                        zip_file.extract(item, dirname(POSTER_PATH))
-                    elif item == 'movies.db':
-                        zip_file.extract(item, TEMP_PATH)
-
-            import_from(join(TEMP_PATH, 'movies.db'))
+            import_from(export_file)
+            insert_from(join(TEMP_PATH, 'movies.db'))
             rmtree(TEMP_PATH)
-
             return {"message": 'Import Successful', "status": 'success'}
-        return {"message": 'Import Cancelled', "status": 'cancel'}
 
+        return {"message": 'Import Cancelled', "status": 'cancel'}
     except Exception as error:
         print('IMPORT ERROR : ', error)
         return {"message": 'Import Failed', "status": 'error'}
 
 
-eel.start('index.html')
+eel.start('index.html', close_callback=persist_app_data)
 
 
-# python -m eel MovieSieve.py web --onefile --noconsole --icon=favicon.ico
+# python -m eel MovieSieve.py web --onefile --noconsole --icon=web/favicon.ico

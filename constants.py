@@ -1,14 +1,22 @@
-from dotenv import get_key
-from os.path import join, dirname, realpath, expanduser
+import sys
+from os.path import join, dirname, abspath, expanduser
 from datetime import date
+from dotenv import get_key
 
-ROOT_PATH = dirname(realpath(__file__))
-ENV_FILE = join(ROOT_PATH, 'web', '.env')
-APP_ICON = join(ROOT_PATH, 'web', 'favicon.ico')
+if getattr(sys, 'frozen', False):
+    EXE_PATH = abspath(dirname(sys.executable))
+elif __file__:
+    EXE_PATH = abspath(dirname(__file__))
+APP_DATA_FILE = join(EXE_PATH, 'MovieSieve.data')
+
+DATA_PATH = getattr(sys, '_MEIPASS', abspath(dirname(__file__)))
 DOWNLOADS_PATH = join(expanduser('~'), 'Downloads')
-POSTER_PATH = join(ROOT_PATH, 'web', 'Posters')
-DB_PATH = join(ROOT_PATH, 'web', 'movies.db')
-TEMP_PATH = join(ROOT_PATH, 'web', 'temp')
+WEB_PATH = join(DATA_PATH, 'web')
+POSTER_PATH = join(WEB_PATH, 'Posters')
+TEMP_PATH = join(WEB_PATH, 'temp')
+ENV_FILE = join(WEB_PATH, '.env')
+ICON_FILE = join(WEB_PATH, 'favicon.ico')
+DB_FILE = join(WEB_PATH, 'movies.db')
 EXPORT_NAME = f'MovieSieve_{date.today()}.ms'
 
 API_ENDPOINT = 'http://www.omdbapi.com/'

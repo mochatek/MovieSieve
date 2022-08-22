@@ -1,7 +1,6 @@
 from os import name as Platform
 from os.path import join
 from typing import Callable, List
-from urllib import response
 from aiohttp import ClientSession
 from aiofiles import open
 from asyncio import run, gather, Lock
