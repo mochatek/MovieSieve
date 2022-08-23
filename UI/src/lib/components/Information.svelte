@@ -43,4 +43,8 @@
     Use the <mark class="alert"><i class="fa fa-arrow-circle-up" /></mark> button
     in toolbar to export data into MovieSieve(.ms) file
   </li>
+  <li>
+    Please <mark class="alert"><i class="fa fa-save" /></mark> before exiting. Else,
+    latest additions wont be available, next time you open the app
+  </li>
 </header>

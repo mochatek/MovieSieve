@@ -38,7 +38,7 @@
       >
         <i class="fa fa-arrow-circle-up" />
       </li>
-      <li role="button" title="Save" class:disabled on:click={saveData}>
+      <li role="button" title="Save Data" class:disabled on:click={saveData}>
         <i class="fa fa-save" />
       </li>
     </ul>
