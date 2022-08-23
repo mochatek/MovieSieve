@@ -39,7 +39,7 @@ jobs:
       - name: Create Environment File
         run: echo API_KEY=${{ secrets.API_KEY }} > web/.env
       - name: Create Executable
-        run: python -m eel MovieSieve.py web --onefile --noconsole --icon=web/favicon.ico
+        run: python -m eel MovieSieve.py web --onefile --noconsole --icon=web/favicon.ico --splash=web/splash.png
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

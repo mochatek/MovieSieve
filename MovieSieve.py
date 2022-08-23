@@ -4,9 +4,8 @@ from os.path import join, isdir
 from shutil import rmtree
 from services.API import fetch_movies, save_poster, search_by_imdbId, run_async
 from services.DB import init_db, insert_one, insert_many, insert_from, get_data, get_many
-from services.core import init_app_data, open_dialog, export_to, import_from
-from constants import TEMP_PATH, EXPORT_NAME, APP_DATA_FILE
-
+from services.core import init_app_data, open_dialog, export_to, import_from, close_splash_screen
+from constants import TEMP_PATH, EXPORT_NAME, APP_DATA_FILE, CHROME_FLAGS
 
 def init_progress(total: int, remaining: int):
     completed = total - remaining
@@ -156,9 +155,12 @@ def save_app_data():
         return {"message": 'Save Failed', "status": 'error'}
 
 
+close_splash_screen()
+
+
 eel.start('index.html',
     # close_callback=persist_app_data,
-    cmdline_args=['--disable-sync', '--incognito', '--no-experiments', '--disable-background-mode'])
+    cmdline_args=CHROME_FLAGS)
 
 
-# python -m eel MovieSieve.py web --onefile --noconsole --icon=web/favicon.ico
+# python -m eel MovieSieve.py web --onefile --noconsole --icon=web/favicon.ico --splash=web/splash.png

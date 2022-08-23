@@ -52,3 +52,11 @@ def init_app_data():
 #     finally:
 #         if not websockets:
 #             exit()
+
+
+def close_splash_screen():
+    try:
+        import pyi_splash
+        pyi_splash.close()
+    except:
+        pass
