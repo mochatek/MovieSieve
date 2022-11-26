@@ -21,7 +21,11 @@ def init_db():
 def insert_one(folder_name: str, data: dict):
     conn = connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO movies(folder_name, genres, data) VALUES(?, ?, ?)', construct_values(folder_name, data))
+    folder_name, genres, data = construct_values(folder_name, data)
+    cursor.execute(
+        """INSERT INTO movies (folder_name, genres, data) VALUES (?, ?, ?)
+        ON CONFLICT (folder_name) DO UPDATE SET genres=?, data=? where folder_name=?""",
+        (folder_name, genres, data, genres, data, folder_name))
     conn.commit()
     cursor.close()
     conn.close()
@@ -50,7 +54,8 @@ def get_many(folder_names):
     conn = connect(DB_FILE)
     cursor = conn.cursor()
     movies = cursor.execute(
-        "SELECT folder_name, genres FROM movies WHERE folder_name IN ({seq})".format(seq=','.join(['?']*len(folder_names))), tuple(folder_names)).fetchall()
+        "SELECT folder_name, genres FROM movies WHERE folder_name IN ({seq})".
+        format(seq=','.join(['?']*len(folder_names))), tuple(folder_names)).fetchall()
     cursor.close()
     conn.close()
     return marshal_response(movies)
