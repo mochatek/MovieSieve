@@ -28,8 +28,15 @@ def generate_poster_path(folder_name: str):
     return join(POSTER_PATH, filename)
 
 
+def clean_genre(genres):
+    if genres.lower() == 'n/a':
+        return 'N/A'
+    return ','.join(genre.strip().capitalize() for genre in genres.split(',') if genre.strip())
+
+
 def extract_required_details(data: dict, include_poster = False):
     details = {key: value for key, value in data.items() if key in REQUIRED_MOVIE_PROPS}
+    details['Genre'] = clean_genre(details.get('Genre', 'N/A'))
     if include_poster:
         details['Poster'] = data.get('Poster', '')
     return details

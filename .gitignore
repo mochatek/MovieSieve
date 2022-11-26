@@ -4,6 +4,8 @@ web/*
 !web/favicon.ico
 !web/splash.png
 *.db
+*.data
+*.ms
 *.env
 *.spec
 __pycache__
